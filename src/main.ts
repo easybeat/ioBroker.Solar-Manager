@@ -107,9 +107,11 @@ class SolarManager extends utils.Adapter {
 
 		this.pollGatewayData();
 
+		const polltime = this.config.pollTime | 60000;
+
 		this.setInterval(async () => {
 			this.pollGatewayData();
-		}, 5000);
+		}, polltime);
 	}
 
 	/**

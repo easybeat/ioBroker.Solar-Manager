@@ -1,5 +1,6 @@
 {
+	"Options": "Options",
 	"solar-manager adapter settings": "Adapter settings for solar-manager",
-	"api_url": "api_url",
-	"solarManagerId": "solarManagerId"
+	"API URL Solar Manager": "API URL Solar Manager",
+	"The API URL from Solar Manager": "The API URL from Solar Manager"
 }

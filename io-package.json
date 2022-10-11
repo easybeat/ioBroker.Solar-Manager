@@ -72,7 +72,8 @@
 	},
 	"native": {
 		"api_url": "https://cloud.solar-manager.ch/v1",
-		"solarManagerId": "42"
+		"solarManagerId": "",
+		"pollTime": 60000
 	},
 	"objects": [],
 	"instanceObjects": []

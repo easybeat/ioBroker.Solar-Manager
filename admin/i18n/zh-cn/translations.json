@@ -3,5 +3,8 @@
     "option1": "选项1",
     "option2": "选项2",
     "api_url": "api_url",
-    "solarManagerId": "solarManagerId"
+    "solarManagerId": "solarManagerId",
+    "Options": "选项",
+    "API URL Solar Manager": "API URL 太阳能管理器",
+    "The API URL from Solar Manager": "Solar Manager 的 API URL"
 }

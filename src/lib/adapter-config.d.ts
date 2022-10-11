@@ -8,6 +8,7 @@ declare global {
 			solarManagerId: string;
 			username: string;
 			password: string;
+			pollTime: number;
 		}
 	}
 }

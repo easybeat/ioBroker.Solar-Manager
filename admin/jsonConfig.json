@@ -1,26 +1,59 @@
 {
 	"i18n": true,
-	"type": "panel",
+	"type": "tabs",
 	"items": {
-		"api_url": {
-			"type": "text",
-			"label": "API URL Solar Manager",
-			"newLine": true
-		},
-		"solarManagerId": {
-			"type": "text",
-			"label": "Solar Manager ID",
-			"newLine": true
-		},
-		"username": {
-			"type": "text",
-			"label": "Solar Manager Username",
-			"newLine": true
-		},
-		"password": {
-			"type": "password",
-			"label": "Solar Manager Password",
-			"newLine": true
+		"_options": {
+			"type": "panel",
+			"label": "Options",
+			"items": {
+				"api_url": {
+					"type": "text",
+					"label": "API URL Solar Manager",
+					"newLine": true,
+					"help": "The API URL from Solar Manager",
+					"sm": 12,
+					"md": 6,
+					"lg": 6
+				},
+				"solarManagerId": {
+					"type": "text",
+					"label": "Solar Manager ID",
+					"newLine": true,
+					"help": "The ID can be found on the web interface of Solar Manager. See Settings.",
+					"sm": 12,
+					"md": 6,
+					"lg": 6
+				},
+				"username": {
+					"type": "text",
+					"label": "Solar Manager Username",
+					"newLine": true,
+					"help": "Your E-Mail adress to login to Solar Manager",
+					"sm": 12,
+					"md": 6,
+					"lg": 6
+				},
+				"password": {
+					"type": "password",
+					"label": "Solar Manager Password",
+					"newLine": true,
+					"help": "Your Password to login to Solar Manager",
+					"sm": 12,
+					"md": 6,
+					"lg": 6
+				},
+				"pollTime": {
+					"type": "number",
+					"min": 1000,
+					"max": 360000,
+					"label": "Poll Time in ms",
+					"newLine": true,
+					"help": "Poll Time to request data",
+					"sm": 12,
+					"md": 6,
+					"lg": 6
+				}
+			}
 		}
 	}
 }

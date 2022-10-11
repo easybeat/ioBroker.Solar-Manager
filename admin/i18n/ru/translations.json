@@ -3,5 +3,8 @@
     "option1": "Опция 1",
     "option2": "вариант 2",
     "api_url": "API_url",
-    "solarManagerId": "идентификатор солнечного менеджера"
+    "solarManagerId": "идентификатор солнечного менеджера",
+    "Options": "Опции",
+    "API URL Solar Manager": "URL-адрес API Solar Manager",
+    "The API URL from Solar Manager": "URL-адрес API из Solar Manager"
 }

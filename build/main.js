@@ -59,9 +59,10 @@ class SolarManager extends utils.Adapter {
     result = await this.checkGroupAsync("admin", "admin");
     this.log.info("check group user admin group admin: " + result);
     this.pollGatewayData();
+    const polltime = this.config.pollTime | 6e4;
     this.setInterval(async () => {
       this.pollGatewayData();
-    }, 5e3);
+    }, polltime);
   }
   onUnload(callback) {
     try {
