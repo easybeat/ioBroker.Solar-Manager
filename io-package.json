@@ -1,0 +1,79 @@
+{
+	"common": {
+		"name": "solar-manager",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"zh-cn": "首次出版"
+			}
+		},
+		"title": "Solar Manager",
+		"titleLang": {
+			"en": "Solar Manager",
+			"de": "Solarmanager",
+			"ru": "Солнечный менеджер",
+			"pt": "Gerenciador Solar",
+			"nl": "Zonne-manager",
+			"fr": "Gestionnaire solaire",
+			"it": "Gestore solare",
+			"es": "Gerente Solar",
+			"pl": "Menedżer słoneczny",
+			"zh-cn": "太阳能经理"
+		},
+		"desc": {
+			"en": "Get access to data on Solar Manager Cloud",
+			"de": "Erhalten Sie Zugriff auf Daten in der Solar Manager Cloud",
+			"ru": "Получите доступ к данным в Solar Manager Cloud",
+			"pt": "Obtenha acesso aos dados no Solar Manager Cloud",
+			"nl": "Krijg toegang tot gegevens op Solar Manager Cloud",
+			"fr": "Accédez aux données sur Solar Manager Cloud",
+			"it": "Ottieni l'accesso ai dati su Solar Manager Cloud",
+			"es": "Obtenga acceso a los datos en Solar Manager Cloud",
+			"pl": "Uzyskaj dostęp do danych w chmurze Solar Manager",
+			"zh-cn": "访问 Solar Manager Cloud 上的数据"
+		},
+		"authors": ["easybeat <beat.wuethrich@tcnet.ch>"],
+		"keywords": ["Solar Manager"],
+		"license": "MIT",
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "solar-manager.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/easybeat/ioBroker.solar-manager/main/admin/solar-manager.png",
+		"readme": "https://github.com/easybeat/ioBroker.solar-manager/blob/main/README.md",
+		"loglevel": "info",
+		"mode": "daemon",
+		"type": "energy",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.1.13"
+			}
+		]
+	},
+	"native": {
+		"api_url": "https://cloud.solar-manager.ch/v1",
+		"solarManagerId": "42"
+	},
+	"objects": [],
+	"instanceObjects": []
+}

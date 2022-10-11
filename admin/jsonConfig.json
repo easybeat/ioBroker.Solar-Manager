@@ -1,0 +1,26 @@
+{
+	"i18n": true,
+	"type": "panel",
+	"items": {
+		"api_url": {
+			"type": "text",
+			"label": "API URL Solar Manager",
+			"newLine": true
+		},
+		"solarManagerId": {
+			"type": "text",
+			"label": "Solar Manager ID",
+			"newLine": true
+		},
+		"username": {
+			"type": "text",
+			"label": "Solar Manager Username",
+			"newLine": true
+		},
+		"password": {
+			"type": "password",
+			"label": "Solar Manager Password",
+			"newLine": true
+		}
+	}
+}
