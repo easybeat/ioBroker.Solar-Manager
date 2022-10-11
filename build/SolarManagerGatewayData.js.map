@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../src/SolarManagerGatewayData.ts"],
-  "sourcesContent": ["/**\r\n * Detailed Data from a gateway.\r\n */\r\nexport type SolarManagerGatewayData = {\r\n\tTimeStamp: string;\r\n\tcurrentBatteryChargeDischarge: string;\r\n\tcurrentPowerConsumption: string;\r\n\tcurrentPvGeneration: string;\r\n\tsoc: string;\r\n\tstatus: any;\r\n};\r\n"],
+  "sourcesContent": ["/**\r\n * Detailed Data from a gateway.\r\n */\r\nexport type SolarManagerGatewayData = {\r\n\tTimeStamp: string;\r\n\tcurrentBatteryChargeDischarge: string;\r\n\tcurrentPowerConsumption: string;\r\n\tcurrentPvGeneration: string;\r\n\tdevices: [\r\n\t\t{\r\n\t\t\t_id: string;\r\n\t\t\tcurrentWaterTemp: number;\r\n\t\t},\r\n\t];\r\n\tstatus: any;\r\n\tsoc: string;\r\n};\r\n"],
   "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }

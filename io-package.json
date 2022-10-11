@@ -76,5 +76,429 @@
 		"pollTime": 60000
 	},
 	"objects": [],
-	"instanceObjects": []
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "Service connected",
+					"de": "Service verbunden",
+					"ru": "Сервис подключен",
+					"pt": "Serviço conectado",
+					"nl": "Verbinding",
+					"fr": "Service connecté",
+					"it": "Servizio connesso",
+					"es": "Servicio conectado",
+					"pl": "Połączenie",
+					"uk": "Сервіс підключений",
+					"zh-cn": "相关服务"
+				},
+				"role": "indicator.connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo",
+			"type": "channel",
+			"common": {
+				"name": {
+					"en": "Information",
+					"de": "Informationen",
+					"ru": "Информация",
+					"pt": "Informação",
+					"nl": "Informatie",
+					"fr": "Information",
+					"it": "Informazioni",
+					"es": "Información",
+					"pl": "Informacja",
+					"uk": "Інформація",
+					"zh-cn": "信息"
+				}
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo._id",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "Id",
+					"de": "I",
+					"ru": "Ид",
+					"pt": "I",
+					"nl": "ID",
+					"fr": "Id",
+					"it": "Id",
+					"es": "Id",
+					"pl": "Id",
+					"uk": "Ід",
+					"zh-cn": "Id"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.signal",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "Signal",
+					"de": "Signal",
+					"ru": "Сигнал",
+					"pt": "Sinalização",
+					"nl": "Signaal",
+					"fr": "Signal",
+					"it": "Segnale",
+					"es": "Signal",
+					"pl": "Signal",
+					"uk": "Увійти",
+					"zh-cn": "签字"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.name",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "Name",
+					"de": "Name",
+					"ru": "Имя",
+					"pt": "Nome",
+					"nl": "Naam",
+					"fr": "Nom",
+					"it": "Nome",
+					"es": "Nombre",
+					"pl": "Nazwa",
+					"uk": "Ім'я",
+					"zh-cn": "姓名"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.sm_id",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "sm_id",
+					"de": "sm_id",
+					"ru": "см_ид",
+					"pt": "- não",
+					"nl": "smid",
+					"fr": "sm_id",
+					"it": "- sì",
+					"es": "sm_id",
+					"pl": "sm_id",
+					"uk": "пн-пт",
+					"zh-cn": "页: 1"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.owner",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "Owner",
+					"de": "Eigentümer",
+					"ru": "Владелец",
+					"pt": "Proprietário",
+					"nl": "Owner",
+					"fr": "Propriétaire",
+					"it": "Proprietario",
+					"es": "Propietario",
+					"pl": "Właściciel",
+					"uk": "Власник",
+					"zh-cn": "所有权"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.firmware",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "Firmware",
+					"de": "Firmware",
+					"ru": "Прошивка",
+					"pt": "Firmware",
+					"nl": "Firmware",
+					"fr": "Firmware",
+					"it": "Firmware",
+					"es": "Firmware",
+					"pl": "Firmware",
+					"uk": "Прошивка",
+					"zh-cn": "警觉"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.lastErrorDate",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "last Error Date",
+					"de": "letzter Fehler Datum",
+					"ru": "последняя ошибка Дата",
+					"pt": "última data de erro",
+					"nl": "laatste Error Date",
+					"fr": "dernière erreur",
+					"it": "data ultimo errore",
+					"es": "última fecha de error",
+					"pl": "error Date",
+					"uk": "остання дата помилки",
+					"zh-cn": "最后一次逮捕日期"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.mac",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "mac address",
+					"de": "mac adresse",
+					"ru": "mac адрес",
+					"pt": "endereço mac",
+					"nl": "macadres",
+					"fr": "adresse mac",
+					"it": "indirizzo",
+					"es": "mac dirección",
+					"pl": "maca",
+					"uk": "mac адреса",
+					"zh-cn": "小额地址"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "deviceinfo.ip",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "IP",
+					"de": "IP",
+					"ru": "ИП",
+					"pt": "IP",
+					"nl": "IP",
+					"fr": "IP",
+					"it": "IP",
+					"es": "IP",
+					"pl": "IP",
+					"uk": "ІМ'Я",
+					"zh-cn": "IP"
+				},
+				"role": "text",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": ""
+			},
+			"native": {}
+		},
+		{
+			"_id": "data",
+			"type": "channel",
+			"common": {
+				"name": {
+					"en": "data",
+					"de": "daten",
+					"ru": "данные",
+					"pt": "dados",
+					"nl": "data",
+					"fr": "données",
+					"it": "dati",
+					"es": "datos",
+					"pl": "dane",
+					"uk": "дані",
+					"zh-cn": "数据"
+				}
+			},
+			"native": {}
+		},
+		{
+			"_id": "data.currentPvGeneration",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "current Pv Generation",
+					"de": "aktuelle Pv Generation",
+					"ru": "текущее поколение Pv",
+					"pt": "geração de Pv atual",
+					"nl": "huidige Pv Generation",
+					"fr": "actuel Pv Generation",
+					"it": "attuale generazione Pv",
+					"es": "actual Pv Generation",
+					"pl": "pv Generation",
+					"uk": "поточний Pv Generation",
+					"zh-cn": "现任Pv Gen"
+				},
+				"role": "value",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"def": 0
+			},
+			"native": {}
+		},
+		{
+			"_id": "data.currentPowerConsumption",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "current Power Consumption",
+					"de": "stromverbrauch",
+					"ru": "текущее энергопотребление",
+					"pt": "consumo de energia atual",
+					"nl": "huidige Power Consumpp",
+					"fr": "consommation de courant",
+					"it": "consumo energetico corrente",
+					"es": "actual Consumo de Poder",
+					"pl": "power Consumption",
+					"uk": "струм споживання електроенергії",
+					"zh-cn": "现任政权"
+				},
+				"role": "value",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"def": 0
+			},
+			"native": {}
+		},
+		{
+			"_id": "data.TimeStamp",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "TimeStamp",
+					"de": "Zeitstempel",
+					"ru": "TimeStamp",
+					"pt": "TimeStamp",
+					"nl": "Timestamp",
+					"fr": "TimeStamp",
+					"it": "TimeStamp",
+					"es": "TimeStamp",
+					"pl": "TimeStamp",
+					"uk": "Розклад",
+					"zh-cn": "时间范围"
+				},
+				"role": "value",
+				"type": "string",
+				"read": true,
+				"write": false,
+				"def": 0
+			},
+			"native": {}
+		},
+		{
+			"_id": "data.soc",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "state of charge (SOC)",
+					"de": "ladezustand (SOC)",
+					"ru": "состояние заряда (SOC)",
+					"pt": "estado de carga (SOC)",
+					"nl": "staat van lading (SOC)",
+					"fr": "état de charge (SOC)",
+					"it": "stato di carica (SOC)",
+					"es": "estado de carga (SOC)",
+					"pl": "stan oskarżenia (SOC)",
+					"uk": "стан заряду (СО)",
+					"zh-cn": "收费状况"
+				},
+				"role": "value",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"def": 0
+			},
+			"native": {}
+		},
+		{
+			"_id": "data.currentWaterTemp",
+			"type": "state",
+			"common": {
+				"name": {
+					"en": "current Water Temp",
+					"de": "aktuelle Wassertemperatur",
+					"ru": "текущая температура воды",
+					"pt": "temperatura atual da água",
+					"nl": "water temperatuur",
+					"fr": "temps d'eau actuel",
+					"it": "tempi di acqua corrente",
+					"es": "corriente Agua Temperatura",
+					"pl": "tempo wody",
+					"uk": "погода",
+					"zh-cn": "当前水文图"
+				},
+				"role": "value",
+				"type": "number",
+				"read": true,
+				"write": false,
+				"def": 0
+			},
+			"native": {}
+		}
+	]
 }

@@ -6,6 +6,12 @@ export type SolarManagerGatewayData = {
 	currentBatteryChargeDischarge: string;
 	currentPowerConsumption: string;
 	currentPvGeneration: string;
-	soc: string;
+	devices: [
+		{
+			_id: string;
+			currentWaterTemp: number;
+		},
+	];
 	status: any;
+	soc: string;
 };

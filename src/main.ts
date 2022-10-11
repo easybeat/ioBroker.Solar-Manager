@@ -14,6 +14,8 @@ import { SolarManagerGatewayInfo } from './SolarManagerGatewayInfo';
 // import * as fs from "fs";
 
 class SolarManager extends utils.Adapter {
+	public pollInterval: ioBroker.Interval | undefined;
+
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -42,29 +44,6 @@ class SolarManager extends utils.Adapter {
 		Here a simple template for a boolean variable named "testVariable"
 		Because every adapter instance uses its own unique namespace variable names can't collide with other adapters variables
 		*/
-		await this.setObjectNotExistsAsync('currentPvGeneration', {
-			type: 'state',
-			common: {
-				name: 'currentPvGeneration',
-				type: 'number',
-				role: 'indicator',
-				read: true,
-				write: false,
-			},
-			native: {},
-		});
-
-		await this.setObjectNotExistsAsync('currentPowerConsumption', {
-			type: 'state',
-			common: {
-				name: 'Current Power Consumption',
-				type: 'number',
-				role: 'indicator',
-				read: true,
-				write: false,
-			},
-			native: {},
-		});
 
 		// In order to get state updates, you need to subscribe to them. The following line adds a subscription for our variable we have created above.
 		//this.subscribeStates('testVariable');
@@ -105,13 +84,20 @@ class SolarManager extends utils.Adapter {
 			this.log.error('Fehler beim Aufruf');
 		}*/
 
-		this.pollGatewayData();
+		await this.setStateAsync('info.connection', { val: true, ack: true });
 
-		const polltime = this.config.pollTime | 60000;
+		this.startupGatewayDataPoll();
 
-		this.setInterval(async () => {
+		await this.setGatewayInfoStates();
+	}
+
+	/**
+	 * starting up data poll from solar manager cloud
+	 */
+	private async startupGatewayDataPoll(): Promise<void> {
+		this.pollInterval = this.setInterval(async () => {
 			this.pollGatewayData();
-		}, polltime);
+		}, this.config.pollTime);
 	}
 
 	/**
@@ -123,11 +109,32 @@ class SolarManager extends utils.Adapter {
 			// clearTimeout(timeout1);
 			// clearTimeout(timeout2);
 			// ...
-			// clearInterval(interval1);
+			//this.clearInterval(this.pollInterval);
 
 			callback();
 		} catch (e) {
 			callback();
+		}
+	}
+
+	async setGatewayInfoStates(): Promise<void> {
+		try {
+			const gatewayInfo = await this.getGatewayInfo();
+
+			this.log.debug('Result: ' + JSON.stringify(gatewayInfo.gateway._id));
+
+			await this.setStateAsync('deviceinfo._id', { val: gatewayInfo.gateway._id, ack: true });
+			await this.setStateAsync('deviceinfo.signal', { val: gatewayInfo.gateway.signal, ack: true });
+			await this.setStateAsync('deviceinfo.name', { val: gatewayInfo.gateway.name, ack: true });
+			await this.setStateAsync('deviceinfo.sm_id', { val: gatewayInfo.gateway.sm_id, ack: true });
+			await this.setStateAsync('deviceinfo.owner', { val: gatewayInfo.gateway.owner, ack: true });
+			await this.setStateAsync('deviceinfo.firmware', { val: gatewayInfo.gateway.firmware, ack: true });
+			await this.setStateAsync('deviceinfo.lastErrorDate', { val: gatewayInfo.gateway.lastErrorDate, ack: true });
+			await this.setStateAsync('deviceinfo.mac', { val: gatewayInfo.gateway.mac, ack: true });
+			await this.setStateAsync('deviceinfo.ip', { val: gatewayInfo.gateway.ip, ack: true });
+		} catch (error) {
+			console.log(error);
+			this.log.error('Error getGatewayInfo: ' + error);
 		}
 	}
 
@@ -138,32 +145,34 @@ class SolarManager extends utils.Adapter {
 	 */
 	async getGatewayInfo(): Promise<SolarManagerGatewayInfo> {
 		const url = `${this.config.api_url}/info/gateway/${this.config.solarManagerId}`;
-		this.log.info(url + ' / ' + this.config.password);
 		const result = await axios.get<SolarManagerGatewayInfo>(url, this.getRequestConfig());
 
-		this.log.info(result.status.toString());
-		this.log.info(result.statusText);
+		//this.log.debug('Result: ' + JSON.stringify(result.data));
 
-		this.log.info(result.data.name);
+		if (result.status != 200) {
+			this.log.error('getGatewayInfo failed with status: ' + result.status.toString() + '/' + result.statusText);
+		}
 
 		return result.data;
 	}
 
 	async pollGatewayData(): Promise<void> {
 		try {
-			const gatewayInfo = await this.getGatewayData();
+			const gatewayData = await this.getGatewayData();
 
-			this.log.debug('Result: ' + JSON.stringify(gatewayInfo.currentPvGeneration));
+			this.log.debug('Result: ' + JSON.stringify(gatewayData.currentPvGeneration));
 
-			await this.setStateAsync('currentPvGeneration', { val: gatewayInfo.currentPvGeneration, ack: true });
-
-			await this.setStateAsync('currentPowerConsumption', {
-				val: gatewayInfo.currentPowerConsumption,
+			await this.setStateAsync('data.currentPvGeneration', { val: gatewayData.currentPvGeneration, ack: true });
+			await this.setStateAsync('data.currentPowerConsumption', {
+				val: gatewayData.currentPowerConsumption,
 				ack: true,
 			});
+			await this.setStateAsync('data.TimeStamp', { val: gatewayData.TimeStamp, ack: true });
+			await this.setStateAsync('data.soc', { val: gatewayData.soc, ack: true });
+			await this.setStateAsync('data.currentWaterTemp', { val: 0, ack: true }); //not implemented yet
 		} catch (error) {
 			console.log(error);
-			this.log.error('Fehler beim Aufruf: ' + error);
+			this.log.error('Error pollGatewayData: ' + error);
 		}
 	}
 
@@ -173,7 +182,9 @@ class SolarManager extends utils.Adapter {
 	 */
 	async getGatewayData(): Promise<SolarManagerGatewayData> {
 		const url = `${this.config.api_url}/stream/gateway/${this.config.solarManagerId}`;
-		const result = await axios.get(url, this.getRequestConfig());
+		const result = await axios.get<SolarManagerGatewayData>(url, this.getRequestConfig());
+
+		//this.log.debug('Result: ' + JSON.stringify(result.data.devices));
 
 		if (result.status != 200) {
 			this.log.error('getGatewayData failed with status: ' + result.status.toString() + '/' + result.statusText);

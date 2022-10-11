@@ -130,7 +130,11 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ### **WORK IN PROGRESS**
 
+-   (easybeat) Instance Objects for Gateway Info and Gateway Data added
 -   (easybeat) Added Admin 5 configuration
+
+### 0.0.1
+
 -   (easybeat) initial release
 
 ## License

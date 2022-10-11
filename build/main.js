@@ -32,37 +32,18 @@ class SolarManager extends utils.Adapter {
   async onReady() {
     this.log.info("config option1: " + this.config.api_url);
     this.log.info("config option2: " + this.config.password);
-    await this.setObjectNotExistsAsync("currentPvGeneration", {
-      type: "state",
-      common: {
-        name: "currentPvGeneration",
-        type: "number",
-        role: "indicator",
-        read: true,
-        write: false
-      },
-      native: {}
-    });
-    await this.setObjectNotExistsAsync("currentPowerConsumption", {
-      type: "state",
-      common: {
-        name: "Current Power Consumption",
-        type: "number",
-        role: "indicator",
-        read: true,
-        write: false
-      },
-      native: {}
-    });
     let result = await this.checkPasswordAsync("admin", "iobroker");
     this.log.info("check user admin pw iobroker: " + result);
     result = await this.checkGroupAsync("admin", "admin");
     this.log.info("check group user admin group admin: " + result);
-    this.pollGatewayData();
-    const polltime = this.config.pollTime | 6e4;
-    this.setInterval(async () => {
+    await this.setStateAsync("info.connection", { val: true, ack: true });
+    this.startupGatewayDataPoll();
+    await this.setGatewayInfoStates();
+  }
+  async startupGatewayDataPoll() {
+    this.pollInterval = this.setInterval(async () => {
       this.pollGatewayData();
-    }, polltime);
+    }, this.config.pollTime);
   }
   onUnload(callback) {
     try {
@@ -71,27 +52,47 @@ class SolarManager extends utils.Adapter {
       callback();
     }
   }
+  async setGatewayInfoStates() {
+    try {
+      const gatewayInfo = await this.getGatewayInfo();
+      this.log.debug("Result: " + JSON.stringify(gatewayInfo.gateway._id));
+      await this.setStateAsync("deviceinfo._id", { val: gatewayInfo.gateway._id, ack: true });
+      await this.setStateAsync("deviceinfo.signal", { val: gatewayInfo.gateway.signal, ack: true });
+      await this.setStateAsync("deviceinfo.name", { val: gatewayInfo.gateway.name, ack: true });
+      await this.setStateAsync("deviceinfo.sm_id", { val: gatewayInfo.gateway.sm_id, ack: true });
+      await this.setStateAsync("deviceinfo.owner", { val: gatewayInfo.gateway.owner, ack: true });
+      await this.setStateAsync("deviceinfo.firmware", { val: gatewayInfo.gateway.firmware, ack: true });
+      await this.setStateAsync("deviceinfo.lastErrorDate", { val: gatewayInfo.gateway.lastErrorDate, ack: true });
+      await this.setStateAsync("deviceinfo.mac", { val: gatewayInfo.gateway.mac, ack: true });
+      await this.setStateAsync("deviceinfo.ip", { val: gatewayInfo.gateway.ip, ack: true });
+    } catch (error) {
+      console.log(error);
+      this.log.error("Error getGatewayInfo: " + error);
+    }
+  }
   async getGatewayInfo() {
     const url = `${this.config.api_url}/info/gateway/${this.config.solarManagerId}`;
-    this.log.info(url + " / " + this.config.password);
     const result = await import_axios.default.get(url, this.getRequestConfig());
-    this.log.info(result.status.toString());
-    this.log.info(result.statusText);
-    this.log.info(result.data.name);
+    if (result.status != 200) {
+      this.log.error("getGatewayInfo failed with status: " + result.status.toString() + "/" + result.statusText);
+    }
     return result.data;
   }
   async pollGatewayData() {
     try {
-      const gatewayInfo = await this.getGatewayData();
-      this.log.debug("Result: " + JSON.stringify(gatewayInfo.currentPvGeneration));
-      await this.setStateAsync("currentPvGeneration", { val: gatewayInfo.currentPvGeneration, ack: true });
-      await this.setStateAsync("currentPowerConsumption", {
-        val: gatewayInfo.currentPowerConsumption,
+      const gatewayData = await this.getGatewayData();
+      this.log.debug("Result: " + JSON.stringify(gatewayData.currentPvGeneration));
+      await this.setStateAsync("data.currentPvGeneration", { val: gatewayData.currentPvGeneration, ack: true });
+      await this.setStateAsync("data.currentPowerConsumption", {
+        val: gatewayData.currentPowerConsumption,
         ack: true
       });
+      await this.setStateAsync("data.TimeStamp", { val: gatewayData.TimeStamp, ack: true });
+      await this.setStateAsync("data.soc", { val: gatewayData.soc, ack: true });
+      await this.setStateAsync("data.currentWaterTemp", { val: 0, ack: true });
     } catch (error) {
       console.log(error);
-      this.log.error("Fehler beim Aufruf: " + error);
+      this.log.error("Error pollGatewayData: " + error);
     }
   }
   async getGatewayData() {

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../src/SolarManagerGatewayInfo.ts"],
-  "sourcesContent": ["/**\r\n * Detailed information about a gateway.\r\n */\r\nexport class SolarManagerGatewayInfo {\r\n\tpublic _id: string | undefined;\r\n\tpublic signal: string | undefined;\r\n\tpublic name!: string;\r\n\tpublic sm_id: string | undefined;\r\n\tpublic owner: string | undefined;\r\n\tpublic firmware: string | undefined;\r\n\tpublic lastErrorDate: string | undefined;\r\n\tpublic mac: string | undefined;\r\n\tpublic ip: string | undefined;\r\n}\r\n"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAGO,MAAM,wBAAwB;AAUrC;",
+  "sourcesContent": ["/**\r\n * Detailed information about a gateway.\r\n */\r\nexport type SolarManagerGatewayInfo = {\r\n\tgateway: {\r\n\t\t_id: string;\r\n\t\tsignal: string;\r\n\t\tname: string;\r\n\t\tsm_id: string;\r\n\t\towner: string;\r\n\t\tfirmware: string;\r\n\t\tlastErrorDate: string;\r\n\t\tmac: string;\r\n\t\tip: string;\r\n\t};\r\n};\r\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }
