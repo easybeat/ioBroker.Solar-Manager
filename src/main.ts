@@ -2,8 +2,6 @@
  * Created with @iobroker/create-adapter v2.3.0
  */
 
-import axios, { AxiosRequestConfig } from 'axios';
-
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
@@ -12,6 +10,7 @@ import { SolarManagerGatewayInfo } from './SolarManagerGatewayInfo';
 
 // Load your modules here, e.g.:
 // import * as fs from "fs";
+import axios, { AxiosRequestConfig } from 'axios';
 
 class SolarManager extends utils.Adapter {
 	public pollInterval: ioBroker.Interval | undefined;
@@ -36,8 +35,8 @@ class SolarManager extends utils.Adapter {
 
 		// The adapters config (in the instance object everything under the attribute "native") is accessible via
 		// this.config:
-		this.log.info('config option1: ' + this.config.api_url);
-		this.log.info('config option2: ' + this.config.password);
+		//this.log.info('config option1: ' + this.config.api_url);
+		//this.log.info('config option2: ' + this.config.password);
 
 		/*
 		For every state in the system there has to be also an object of type state
@@ -83,8 +82,6 @@ class SolarManager extends utils.Adapter {
 		} catch (error) {
 			this.log.error('Fehler beim Aufruf');
 		}*/
-
-		await this.setStateAsync('info.connection', { val: true, ack: true });
 
 		this.startupGatewayDataPoll();
 
@@ -132,6 +129,14 @@ class SolarManager extends utils.Adapter {
 			await this.setStateAsync('deviceinfo.lastErrorDate', { val: gatewayInfo.gateway.lastErrorDate, ack: true });
 			await this.setStateAsync('deviceinfo.mac', { val: gatewayInfo.gateway.mac, ack: true });
 			await this.setStateAsync('deviceinfo.ip', { val: gatewayInfo.gateway.ip, ack: true });
+
+			const signal = await this.getStateAsync('deviceinfo.signal');
+
+			if (signal) {
+				await this.setStateAsync('info.connection', { val: true, ack: true });
+			} else {
+				await this.setStateAsync('info.connection', { val: false, ack: true });
+			}
 		} catch (error) {
 			console.log(error);
 			this.log.error('Error getGatewayInfo: ' + error);
@@ -158,6 +163,8 @@ class SolarManager extends utils.Adapter {
 
 	async pollGatewayData(): Promise<void> {
 		try {
+			await this.setGatewayInfoStates();
+
 			const gatewayData = await this.getGatewayData();
 
 			this.log.debug('Result: ' + JSON.stringify(gatewayData.currentPvGeneration));

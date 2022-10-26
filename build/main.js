@@ -17,8 +17,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-var import_axios = __toESM(require("axios"));
 var utils = __toESM(require("@iobroker/adapter-core"));
+var import_axios = __toESM(require("axios"));
 class SolarManager extends utils.Adapter {
   constructor(options = {}) {
     super({
@@ -30,13 +30,10 @@ class SolarManager extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    this.log.info("config option1: " + this.config.api_url);
-    this.log.info("config option2: " + this.config.password);
     let result = await this.checkPasswordAsync("admin", "iobroker");
     this.log.info("check user admin pw iobroker: " + result);
     result = await this.checkGroupAsync("admin", "admin");
     this.log.info("check group user admin group admin: " + result);
-    await this.setStateAsync("info.connection", { val: true, ack: true });
     this.startupGatewayDataPoll();
     await this.setGatewayInfoStates();
   }
@@ -65,6 +62,12 @@ class SolarManager extends utils.Adapter {
       await this.setStateAsync("deviceinfo.lastErrorDate", { val: gatewayInfo.gateway.lastErrorDate, ack: true });
       await this.setStateAsync("deviceinfo.mac", { val: gatewayInfo.gateway.mac, ack: true });
       await this.setStateAsync("deviceinfo.ip", { val: gatewayInfo.gateway.ip, ack: true });
+      const signal = await this.getStateAsync("deviceinfo.signal");
+      if (signal) {
+        await this.setStateAsync("info.connection", { val: true, ack: true });
+      } else {
+        await this.setStateAsync("info.connection", { val: false, ack: true });
+      }
     } catch (error) {
       console.log(error);
       this.log.error("Error getGatewayInfo: " + error);
@@ -80,6 +83,7 @@ class SolarManager extends utils.Adapter {
   }
   async pollGatewayData() {
     try {
+      await this.setGatewayInfoStates();
       const gatewayData = await this.getGatewayData();
       this.log.debug("Result: " + JSON.stringify(gatewayData.currentPvGeneration));
       await this.setStateAsync("data.currentPvGeneration", { val: gatewayData.currentPvGeneration, ack: true });
